@@ -138,6 +138,12 @@
   <ItemGroup>
     <ClInclude Include="step.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\..\..\..\..\..\Windows\Fonts\arial.ttf">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </Font>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
