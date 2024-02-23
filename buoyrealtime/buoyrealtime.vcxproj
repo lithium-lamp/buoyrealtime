@@ -138,12 +138,6 @@
   <ItemGroup>
     <ClInclude Include="step.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Font Include="..\..\..\..\..\..\..\WINDOWS\Fonts\COMIC.TTF" />
-    <Font Include="..\..\..\..\..\..\..\WINDOWS\Fonts\COMICBD.TTF" />
-    <Font Include="..\..\..\..\..\..\..\WINDOWS\Fonts\COMICI.TTF" />
-    <Font Include="..\..\..\..\..\..\..\WINDOWS\Fonts\COMICZ.TTF" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
