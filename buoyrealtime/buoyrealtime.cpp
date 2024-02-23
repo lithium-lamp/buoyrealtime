@@ -85,13 +85,15 @@ int main()
         // clear the window with white color
         window.clear(sf::Color::White);
 
+        //
+
 
         coords pos = step(constvec, varvec, h, frame);
 
         x_coords = pos.x_pos;
 
         y_coords = pos.y_pos;
-
+        
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
@@ -100,6 +102,7 @@ int main()
                 
                 x_coords = x_mouse - window_width_half;
                 y_coords = window_height_half - y_mouse;
+
 
                 float x_diff = (x_mouse - window_width_half); //window_width_half, 
                 float y_diff = (y_mouse - window_height_half + spring_initial_position); //window_height_half + spring_initial_position
@@ -112,12 +115,19 @@ int main()
 
                 varvec[2] = 0.f;
                 varvec[3] = 0.f;
+
+                std::printf("x_coords: %f y_coords: %f\n ", x_coords, y_coords);
+
+
             }
 
             // "close requested" event: we close the window
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+
+        
+
 
         buoy.setPosition(window_width_half - buoy_diameter + x_coords, window_height_half - buoy_diameter - y_coords);
 
