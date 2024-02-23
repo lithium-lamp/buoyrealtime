@@ -67,6 +67,7 @@ coords step(const std::vector<float>& cv, std::vector<float>& vv, float h, int f
     else if (y0 + cv[2] <= min) {
         Fflyt = cv[3] * cv[4] * std::abs(max - y0);
 
+
         Ffx = -1 * 1.f;
         //std::cout << "The buoy is below the water line" << std::endl;
     }

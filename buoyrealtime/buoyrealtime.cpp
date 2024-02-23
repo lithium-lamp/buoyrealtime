@@ -17,6 +17,8 @@ int main()
     float theta = 0.f, dL = 2.f, vx = 0.f, vy = 0.f;//variables
     std::vector<float> varvec{ theta, dL, vx, vy };
 
+
+
     // create the window
     const float window_width = 800.f;
     const float window_height = window_width;
@@ -71,8 +73,27 @@ int main()
 
     int frame = 0;
 
+
+
+
+    // create some text in the window
+
+    sf::Font myFont;
+
+    //std::string path = "./comic.ttf";
+    
+    if (!myFont.loadFromFile("./comic.ttf")) {
+        std::printf("Error while trying to load: ./comic.ttf");
+
+    }
+
+
+
+
+
     // run the program as long as the window is open
     while (window.isOpen()) {
+    
         //int current_time_int = time(&currenttime);
 
         //if (current_time_int == last_time_int) //to update each second
@@ -131,6 +152,7 @@ int main()
         window.draw(force_x);
         window.draw(force_y);
         window.draw(spring, 2, sf::Lines);
+        
 
         // end the current frame
         window.display();
