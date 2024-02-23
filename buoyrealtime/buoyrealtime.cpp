@@ -78,14 +78,22 @@ int main()
 
     // create some text in the window
 
-    sf::Font myFont;
+    sf::Font myfont;
 
     //std::string path = "./comic.ttf";
     
-    if (!myFont.loadFromFile("./comic.ttf")) {
+    if (!myfont.loadFromFile("C:\\Users\\hugoh\\Downloads\\supercharge.ttf")) {
         std::printf("Error while trying to load: ./comic.ttf");
 
     }
+
+    sf::Text mytext;
+    mytext.setFillColor(sf::Color::Red);
+    mytext.setFont(myfont);
+    mytext.setCharacterSize(50);
+    mytext.setString("Vicctor luktar");
+
+
 
 
 
@@ -152,7 +160,7 @@ int main()
         window.draw(force_x);
         window.draw(force_y);
         window.draw(spring, 2, sf::Lines);
-        
+        window.draw(mytext);
 
         // end the current frame
         window.display();
