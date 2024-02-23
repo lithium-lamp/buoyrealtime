@@ -11,8 +11,8 @@
 
 int main()
 {
-    const float m = 1.f, k = 0.8f, r = 0.5f, rho = 1.f, g = 9.82f, phi = 2.f * 3.14f, A = 2.f/10.f, o = 3.f, p = 1.f;// consts
-    const std::vector<float> constvec { m, k, r, rho, g, phi, A, o, p };
+    const float m = 1.f, k = 0.1f, r = 0.5f, rho = 1.f, g = 9.82f, phi = 2.f * 3.14f, A = 2.f/10.f, o = 3.f, p = 1.f, b = 1.f;// consts
+    const std::vector<float> constvec { m, k, r, rho, g, phi, A, o, p, b };
 
     float theta = 0.f, dL = 2.f, vx = 0.f, vy = 0.f;//variables
     std::vector<float> varvec{ theta, dL, vx, vy };
