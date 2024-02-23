@@ -61,38 +61,38 @@ coords step(const std::vector<float>& cv, std::vector<float>& vv, float h, int f
     d1 /= float(11);
 
     if (y0 - cv[2] > max) {
-        Fflyt = 0; 
+        Fflyt = 0;
         //std::cout << "reached" << std::endl;
     }
     else if (y0 + cv[2] <= min) {
         Fflyt = cv[3] * cv[4] * std::abs(max - y0);
-        
-        Ffx = -1 * 30.f;
+
+        Ffx = -1 * 1.f;
         //std::cout << "The buoy is below the water line" << std::endl;
     }
     else {
         float A = cv[2] * cv[2];
 
-        if (A == std::abs(d1 - y0) * cv[2])
-            A = 1;
+        if (A >= std::abs(d1 - y0) * cv[2])
+            A = (A - std::abs(d1 - y0) * cv[2]) / A;
         else
-            A = (A - std::abs(d1 - y0) * cv[2])/A;
+            A = 0.5f;
 
         Fflyt = cv[3] * A * cv[4];
 
         //std::cout << "The buoy is inside of the water line" << std::endl;
 
-        Ffx = -1 * 30.f * A;
+        Ffx = -1 * 1.f * A;
     }
 
-    Ffy = std::abs(Fflyt);
+    Ffy = (Fflyt);
 
-    //Fs = cv[1] * vv[1];
-    //if (vv[1] <= 0.f)
-    //    Fs = 0;
+    Fs = cv[1] * vv[1];
+    if (vv[1] <= 0.f)
+        Fs = 0;
 
     Fsx = Fs * std::sinf(vv[0]);
-    Fsy = std::abs(Fs * std::cosf(vv[0]));
+    Fsy = (Fs * std::cosf(vv[0]));
 
     FxTot = Ffx - Fsx;
     FyTot = Ffy - Fsy - Fg;
@@ -111,6 +111,8 @@ coords step(const std::vector<float>& cv, std::vector<float>& vv, float h, int f
     float L = std::sqrt(std::pow(x, 2.f) + std::pow(y, 2.f));
 
     vv[0] = std::atan2f(x, y);
+
+    vv[1] = L - cv[8];
 
     coords c;
 
