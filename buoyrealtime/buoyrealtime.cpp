@@ -9,9 +9,11 @@
 #include "step.h"
 #include <ctime>
 
+sf::VertexArray getWaveVertexArray(float window_width, float window_height_half, float phi, float A, float o, float time, float spring_initial_position);
+
 int main()
 {
-    const float m = 1.f, k = 0.1f, r = 0.5f, rho = 1.f, g = 9.82f, phi = 2.f * 3.14f, A = 2.f/10.f, o = 3.f, p = 1.f, b = 1.f;// consts
+    const float m = 1.f, k = 0.1f, r = 0.5f, rho = 1.f, g = 9.82f, phi = 2.f * 3.14f, A = 5.f, o = 3.f, p = 1.f, b = 1.f;// consts
     const std::vector<float> constvec { m, k, r, rho, g, phi, A, o, p, b };
 
     float theta = 0.f, dL = 2.f, vx = 0.f, vy = 0.f;//variables
@@ -40,10 +42,6 @@ int main()
     buoy.setFillColor(sf::Color(255,0,0));
     buoy.setPosition(window_width_half - buoy_diameter + x_coords, window_height_half - buoy_diameter - y_coords);
 
-    sf::RectangleShape wave(sf::Vector2f(window_width, 3.f)); //wave
-    wave.setFillColor(sf::Color(0, 0, 255));
-    wave.setPosition(0, window_height_half - o);
-
     sf::Vertex spring[] = { //spring
         sf::Vertex(sf::Vector2f(window_width_half, window_height_half)),
         sf::Vertex(sf::Vector2f(window_width_half, window_height_half + spring_initial_position)),
@@ -61,6 +59,8 @@ int main()
     force_x.setPosition(window_width_half, window_height_half - o * scale_constant);
     force_y.setPosition(window_width_half, window_height_half - o * scale_constant);
 
+    sf::VertexArray curve = getWaveVertexArray(window_width, window_height_half, phi, A, o, 0.f, spring_initial_position); //wave
+
     time_t currenttime = time(NULL);
 
     const int start_time = time(&currenttime);
@@ -73,18 +73,8 @@ int main()
 
     // run the program as long as the window is open
     while (window.isOpen()) {
-        //int current_time_int = time(&currenttime);
-
-        //if (current_time_int == last_time_int) //to update each second
-        //    continue;
-
-        //last_time_int = current_time_int;
-
-        // check all the window's events that were triggered since the last iteration of the loop
-
         // clear the window with white color
         window.clear(sf::Color::White);
-
 
         coords pos = step(constvec, varvec, h, frame);
 
@@ -102,11 +92,10 @@ int main()
                 y_coords = window_height_half - y_mouse;
 
                 varvec[0] = std::atan2(x_coords, y_coords);
-                varvec[1] = (std::sqrt(std::pow(x_coords, 2.f) + std::pow(y_coords, 2.f)) - p);
+                varvec[1] = std::sqrt(std::pow(x_coords, 2.f) + std::pow(y_coords, 2.f)) - p;
 
                 varvec[2] = 0.f;
                 varvec[3] = 0.f;
-                //std::cout << "x_diff: " << x_coords << " y_diff: " << y_coords << std::endl;
             }
 
             // "close requested" event: we close the window
@@ -125,12 +114,14 @@ int main()
         spring[0].position.x = window_width_half + x_coords;
         spring[0].position.y = window_height_half - y_coords;
 
+        curve = getWaveVertexArray(window_width, window_height_half, phi, A, o, h * frame, spring_initial_position);
+
         // draw everything here...
         window.draw(buoy);
-        window.draw(wave);
         window.draw(force_x);
         window.draw(force_y);
         window.draw(spring, 2, sf::Lines);
+        window.draw(curve);
 
         // end the current frame
         window.display();
@@ -139,4 +130,19 @@ int main()
     }
 
     return 0;
+}
+
+sf::VertexArray getWaveVertexArray(float window_width, float window_height_half, float phi, float A, float o, float time, float spring_initial_position) {
+    sf::VertexArray curve(sf::PrimitiveType::LineStrip, window_width + 3); //wave
+    curve.append(sf::Vertex(sf::Vector2f(0.f, window_height_half + spring_initial_position), sf::Color::Blue));
+    
+    for (int x = 0; x < window_width; x++) {
+        curve.append(sf::Vertex(sf::Vector2f(x, -1 * wavepoint(phi, A, o, x, time) + window_height_half), sf::Color::Blue));
+    }
+
+    curve.append(sf::Vertex(sf::Vector2f(window_width, window_height_half + spring_initial_position), sf::Color::Blue));
+
+    curve.append(sf::Vertex(sf::Vector2f(0.f, window_height_half + spring_initial_position), sf::Color::Blue));
+
+    return curve;
 }

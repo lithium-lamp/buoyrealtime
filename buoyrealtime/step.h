@@ -17,7 +17,7 @@ float wavepoint(float phi, float A, float o, float x, float time); //returning w
 
 coords step(const std::vector<float>& cv, std::vector<float>& vv, float h, int frame) {
     //constant
-    //cv[0];    m
+    //cv[0];    m   
     //cv[1];    k
     //cv[2];    r
     //cv[3];    rho
@@ -68,7 +68,7 @@ coords step(const std::vector<float>& cv, std::vector<float>& vv, float h, int f
     else if (y0 + cv[2] <= min) {
         Fflyt = cv[3] * cv[4] * std::abs(max - y0);
         
-        Ffx = -1 * 1.f;
+        Ffx = 10.f;
 
         Fbx = -1 * cv[9] * vv[2];
         Fby = -1 * cv[9] * vv[3];
@@ -90,7 +90,7 @@ coords step(const std::vector<float>& cv, std::vector<float>& vv, float h, int f
         Fbx = -1 * cv[9] * vv[2] * A;
         Fby = -1 * cv[9] * vv[3] * A;
 
-        Ffx = -1 * 1.f * A;
+        Ffx = 10.f * A;
     }
 
     Ffy = Fflyt;
@@ -117,9 +117,6 @@ coords step(const std::vector<float>& cv, std::vector<float>& vv, float h, int f
     float y = y0 + h * vy;
 
     float L = std::sqrt(std::pow(x, 2.f) + std::pow(y, 2.f));
-
-    //if (L > cv[8] * 100.f)
-    //    L = 100.f;
 
     vv[0] = std::atan2f(x, y);
 
