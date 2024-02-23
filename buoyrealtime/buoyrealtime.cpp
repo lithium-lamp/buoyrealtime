@@ -61,6 +61,15 @@ int main()
     force_x.setPosition(window_width_half, window_height_half - o * scale_constant);
     force_y.setPosition(window_width_half, window_height_half - o * scale_constant);
 
+    sf::RectangleShape velocity_x(sf::Vector2f(0.f, 0.f)); //velocity x
+    sf::RectangleShape velocity_y(sf::Vector2f(0.f, 0.f)); //velocity y
+
+    velocity_x.setFillColor(sf::Color(0, 0, 0));
+    velocity_y.setFillColor(sf::Color(0, 0, 0));
+
+    velocity_x.setPosition(window_width_half, window_height_half - o * scale_constant);
+    velocity_y.setPosition(window_width_half, window_height_half - o * scale_constant);
+
     sf::VertexArray curve = getWaveVertexArray(window_width, window_height_half, phi, A, o, 0.f, spring_initial_position); //wave
 
     time_t currenttime = time(NULL);
@@ -113,6 +122,12 @@ int main()
         force_x.setPosition(window_width_half + x_coords, window_height_half - y_coords);
         force_y.setPosition(window_width_half + x_coords, window_height_half - y_coords);
 
+        velocity_x.setSize(sf::Vector2f(varvec[2], 3.f));
+        velocity_y.setSize(sf::Vector2f(3.f, -1 * varvec[3]));
+
+        velocity_x.setPosition(window_width_half + x_coords, window_height_half - y_coords);
+        velocity_y.setPosition(window_width_half + x_coords, window_height_half - y_coords);
+
         spring[0].position.x = window_width_half + x_coords;
         spring[0].position.y = window_height_half - y_coords;
 
@@ -123,6 +138,8 @@ int main()
         window.draw(buoy);
         window.draw(force_x);
         window.draw(force_y);
+        window.draw(velocity_x);
+        window.draw(velocity_y);
         window.draw(spring, 2, sf::Lines);
         
         // end the current frame
