@@ -1,5 +1,10 @@
 // buoyrealtime.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
+
+/*
+NOTE from hughu123 (2024-02-29): Hello, now we include the SFML library from within the project. Now we don't have to depend on a local install of SFML and having to change the properties of the
+solution inorder to avoid LINKER problems.
+*/
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <SFML/Graphics.hpp>
@@ -71,7 +76,7 @@ int main() {
     // create some text in the window
     sf::Font myfont;
 
-    if (!myfont.loadFromFile("..\\arial.ttf")) //..\\arial.ttf
+    if (!myfont.loadFromFile("arial.ttf")) //..\\arial.ttf
         std::printf("Error while trying to load: the font");
 
     sf::Text mytext;
