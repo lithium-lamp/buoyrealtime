@@ -17,7 +17,7 @@ float wavepoint(float phi, float A, float o, float x, float time); //returning w
 
 coords step(const std::vector<float>& cv, std::vector<float>& vv, float h, int frame) {
     //constant
-    //cv[0];    m
+    //cv[0];    m   
     //cv[1];    k
     //cv[2];    r
     //cv[3];    rho
@@ -26,6 +26,7 @@ coords step(const std::vector<float>& cv, std::vector<float>& vv, float h, int f
     //cv[6];    A
     //cv[7];    o
     //cv[8];    p
+    //cv[9];    b
 
     //variable
     //vv[0];    theta
@@ -36,7 +37,7 @@ coords step(const std::vector<float>& cv, std::vector<float>& vv, float h, int f
     float x0 = (cv[8] + vv[1]) * std::sinf(vv[0]);
     float y0 = (cv[8] + vv[1]) * std::cosf(vv[0]);
 
-    float Ffy = 0, Ffx = 0, Fflyt = 0, Fs = 0, Fsx = 0, Fsy = 0, FxTot = 0, FyTot = 0, Fg = cv[0] * cv[4];
+    float Ffy = 0, Ffx = 0, Fflyt = 0, Fs = 0, Fsx = 0, Fsy = 0, FxTot = 0, FyTot = 0, Fg = cv[0] * cv[4], Fbx = 0, Fby = 0;
 
     float min = wavepoint(cv[5], cv[6], cv[7], x0 - cv[2], float(frame) * h);
     float max = min;
@@ -67,8 +68,11 @@ coords step(const std::vector<float>& cv, std::vector<float>& vv, float h, int f
     else if (y0 + cv[2] <= min) {
         Fflyt = cv[3] * cv[4] * std::abs(max - y0);
 
+        Ffx = 10.f;
 
-        Ffx = -1 * 1.f;
+        Fbx = -1 * cv[9] * vv[2]; //-1 * b * vx
+        Fby = -1 * cv[9] * vv[3]; //-1 * b * vy
+
         //std::cout << "The buoy is below the water line" << std::endl;
     }
     else {
@@ -83,20 +87,23 @@ coords step(const std::vector<float>& cv, std::vector<float>& vv, float h, int f
 
         //std::cout << "The buoy is inside of the water line" << std::endl;
 
-        Ffx = -1 * 1.f * A;
+        Fbx = -1 * cv[9] * vv[2] * A;
+        Fby = -1 * cv[9] * vv[3] * A;
+
+        Ffx = 10.f * A;
     }
 
-    Ffy = (Fflyt);
+    Ffy = Fflyt;
 
     Fs = cv[1] * vv[1];
     if (vv[1] <= 0.f)
         Fs = 0;
 
     Fsx = Fs * std::sinf(vv[0]);
-    Fsy = (Fs * std::cosf(vv[0]));
+    Fsy = Fs * std::cosf(vv[0]);
 
-    FxTot = Ffx - Fsx;
-    FyTot = Ffy - Fsy - Fg;
+    FxTot = Ffx - Fsx + Fbx;
+    FyTot = Ffy - Fsy - (Fg * Fg) + Fby;
 
     float ax = (1.f / cv[0]) * FxTot;
     float ay = (1.f / cv[0]) * FyTot;
