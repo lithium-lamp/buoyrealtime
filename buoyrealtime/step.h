@@ -70,8 +70,8 @@ coords step(const std::vector<float>& cv, std::vector<float>& vv, float h, int f
         
         Ffx = 10.f;
 
-        Fbx = -1 * cv[9] * vv[2];
-        Fby = -1 * cv[9] * vv[3];
+        Fbx = -1 * cv[9] * vv[2]; //-1 * b * vx
+        Fby = -1 * cv[9] * vv[3]; //-1 * b * vy
 
         //std::cout << "The buoy is below the water line" << std::endl;
     }
