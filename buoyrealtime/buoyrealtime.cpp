@@ -76,7 +76,7 @@ int main() {
     // create some text in the window
     sf::Font myfont;
 
-    if (!myfont.loadFromFile("arial.ttf")) //..\\arial.ttf
+    if (!myfont.loadFromFile("..\\arial.ttf")) //..\\arial.ttf
         std::printf("Error while trying to load: the font");
 
     sf::Text mytext;
