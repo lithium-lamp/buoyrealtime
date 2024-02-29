@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-#include <iostream>
 
 struct coords {
     float x_pos;

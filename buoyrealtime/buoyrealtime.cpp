@@ -5,13 +5,14 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
-#include <time.h>
 #include "step.h"
-#include <ctime>
+#include <Windows.h>
 
 sf::VertexArray getWaveVertexArray(float window_width, float window_height_half, float phi, float A, float o, float time, float spring_initial_position);
 
 int main() {
+    ShowWindow(GetConsoleWindow(), SW_HIDE);
+
     const float m = 1.0f, k = 0.6f, r = 0.5f, rho = 1.f, g = 9.82f, phi = 2.f * 3.14f, A = 5.f, o = 3.f, p = 1.f, b = 1.f;// consts
     const std::vector<float> constvec{ m, k, r, rho, g, phi, A, o, p, b };
 
@@ -70,7 +71,7 @@ int main() {
     // create some text in the window
     sf::Font myfont;
 
-    if (!myfont.loadFromFile("C:/Users/victo/source/repos/lithium-lamp/buoyrealtime/arial.ttf"))
+    if (!myfont.loadFromFile("..\\arial.ttf")) //..\\arial.ttf
         std::printf("Error while trying to load: the font");
 
     sf::Text mytext;
@@ -79,12 +80,6 @@ int main() {
     mytext.setCharacterSize(20);
 
     sf::VertexArray curve = getWaveVertexArray(window_width, window_height_half, phi, A, o, 0.f, spring_initial_position); //wave
-
-    time_t currenttime = time(NULL);
-
-    const int start_time = time(&currenttime);
-
-    int last_time_int = start_time;
 
     window.setFramerateLimit(60);
 
