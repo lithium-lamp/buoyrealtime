@@ -8,7 +8,6 @@
 #include <time.h>
 #include "step.h"
 #include <ctime>
-#include <iostream>
 
 sf::VertexArray getWaveVertexArray(float window_width, float window_height_half, float phi, float A, float o, float time, float spring_initial_position);
 
@@ -69,22 +68,15 @@ int main() {
     velocity_y.setPosition(window_width_half, window_height_half - o * scale_constant);
 
     // create some text in the window
-
     sf::Font myfont;
 
-    //std::string path = "./comic.ttf";
-
-    if (!myfont.loadFromFile("C:/Users/victo/source/repos/lithium-lamp/buoyrealtime/arial.ttf")) {
-        std::printf("Error while trying to load: ./comic.ttf");
-
-    }
+    if (!myfont.loadFromFile("C:/Users/victo/source/repos/lithium-lamp/buoyrealtime/arial.ttf"))
+        std::printf("Error while trying to load: the font");
 
     sf::Text mytext;
     mytext.setFillColor(sf::Color::Black);
     mytext.setFont(myfont);
     mytext.setCharacterSize(20);
-
-    mytext.setString("Forces, x: 0.0N, y: 0.0N\nSpeed, x: 0.0m/s, y: 0.0m/s");
 
     sf::VertexArray curve = getWaveVertexArray(window_width, window_height_half, phi, A, o, 0.f, spring_initial_position); //wave
 
