@@ -16,22 +16,24 @@ float wavepoint(float phi, float A, float o, float x, float time); //returning w
 
 coords step(const std::vector<float>& cv, std::vector<float>& vv, float h, int frame) {
     //constant
-    //cv[0];    m   
-    //cv[1];    k
-    //cv[2];    r
-    //cv[3];    rho
-    //cv[4];    g
-    //cv[5];    phi
-    //cv[6];    A
-    //cv[7];    o
-    //cv[8];    p
-    //cv[9];    b
+    //cv[0];    m       // Mass     
+    //cv[1];    k       // Springconstant
+    //cv[2];    r       // Radius of the buoy
+    //cv[3];    rho     // Fluid density
+    //cv[4];    g       // Earths gravity coefficient
+    //cv[5];    phi     // Wave angle
+    //cv[6];    A       // Wave amplitude
+    //cv[7];    o       // Wave height
+    //cv[8];    p       // 
+    //cv[9];    b       //  
+
+    //A * std::sinf(phi * (x + time)) + o 
 
     //variable
-    //vv[0];    theta
-    //vv[1];    dL
-    //vv[2];    vx
-    //vv[3];    vy
+    //vv[0];    theta   // 
+    //vv[1];    dL      // Displacment of spring
+    //vv[2];    vx      // Velocity x-axis
+    //vv[3];    vy      // Velocity y-axis
 
     float x0 = (cv[8] + vv[1]) * std::sinf(vv[0]);
     float y0 = (cv[8] + vv[1]) * std::cosf(vv[0]);
@@ -67,7 +69,7 @@ coords step(const std::vector<float>& cv, std::vector<float>& vv, float h, int f
     else if (y0 + cv[2] <= min) {
         Fflyt = cv[3] * cv[4] * std::abs(max - y0);
 
-        Ffx = 10.f;
+        Ffx = 10.f;     //Flow of the water
 
         Fbx = -1 * cv[9] * vv[2]; //-1 * b * vx
         Fby = -1 * cv[9] * vv[3]; //-1 * b * vy
